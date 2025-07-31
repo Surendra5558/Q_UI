@@ -5,7 +5,7 @@ steps:
   args: ['build', '-t', 'ui', '.']
   
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', '$PROJECT_ID/ui:latest', '.']
+  args: ['build', '-t', '$PROJECT_ID/Dcube.Quoestionnaire.Ui:latest', '.']
   dir: 'ui'  # Optional: directory containing Dockerfile
 
 options:
