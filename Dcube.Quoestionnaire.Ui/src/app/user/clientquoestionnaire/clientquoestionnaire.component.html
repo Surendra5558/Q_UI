@@ -1,0 +1,108 @@
+<div class="awesome-q-root">
+  <div class="awesome-q-body">
+    <!-- Sidebar: Sections -->
+    <aside class="awesome-q-stepper" *ngIf="!(showLoader() && !sections().length)">
+      <ul class="awesome-section-list">
+        <li *ngFor="let section of sections()" class="awesome-section-item">
+          <div class="awesome-section-header"
+            [class.awesome-active]="selectedSectionId() === section.informationSectionId"
+            (click)="triggerSectionChange(section.informationSectionId)">
+            <span>{{ section.name }}</span>
+            <i *ngIf="section.statusId == 2" class="fa fa-exclamation awesome-check-icon-white"></i>
+            <i *ngIf="section.statusId == 3" class="fa fa-check awesome-check-icon-white"></i>
+          </div>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Loader on full screen -->
+    <div *ngIf="showLoader() && !sections().length" class="awesome-q-loader-fullscreen">
+      <div class="awesome-q-loader-anim">
+        <i class="fa fa-spinner fa-spin"></i>
+        <div class="awesome-q-loader-text">Loading...</div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="awesome-q-main">
+      <!-- Loader inside section -->
+      <div *ngIf="showLoader() && sections().length" class="awesome-q-loader-inline">
+        <span class="awesome-q-spinner"><i class="fa fa-spinner fa-spin"></i></span>
+        <span>Loading...</span>
+      </div>
+
+      <!-- Question form -->
+      <form class="awesome-q-form" *ngIf="!showLoader() && questions().length > 0">
+        <div>
+          <div *ngFor="let q of questions(); let i = index" class="awesome-q-question-row">
+            <div class="awesome-q-question-label">
+              <span class="awesome-q-question-num">{{ i + 1 }}.</span>
+              {{ q.description }}
+              <span *ngIf="q.isMandatory" style="color:#f43f5e; margin-left:6px;">*</span>
+            </div>
+          <div class="awesome-q-answer-input">
+            <ng-container [ngSwitch]="q.renderTypeName.toLowerCase()">
+              <input *ngSwitchCase="'text'" [(ngModel)]="q.response" (ngModelChange)="onAnswerChange()"
+                [name]="'answer_' + selectedSectionId() + '_' + q.id"
+                class="awesome-q-input" type="text" placeholder="Type your answer..." />
+
+              <textarea *ngSwitchCase="'textarea'" [(ngModel)]="q.response" (ngModelChange)="onAnswerChange()"
+                [name]="'answer_' + selectedSectionId() + '_' + q.id"
+                class="awesome-q-input" rows="3" placeholder="Type your detailed answer..."></textarea>
+
+              <!-- CheckBox -->
+              <div *ngSwitchCase="'checkbox'" class="awesome-q-checkbox-group">
+                <div class="awesome-q-checkbox-grid">
+                  <label *ngFor="let opt of getOptionsArray(q.options)"
+                        class="awesome-q-checkbox-label">
+                    <input type="checkbox"
+                          [checked]="q.response && q.response.includes(opt)"
+                          (change)="onCheckboxChange(q, opt, $event)">
+                    <span>{{ opt }}</span>
+                  </label>
+                </div>
+                <div *ngIf="q.response && q.response.includes('Other')" class="awesome-q-other-textbox">
+                  <input type="text"
+                        [(ngModel)]="q.otherText"
+                        (ngModelChange)="onAnswerChange()"
+                        [name]="'otherText_' + selectedSectionId() + '_' + q.id"
+                        class="awesome-q-input awesome-q-input-checkbox"
+                        placeholder="Please specify…">
+                </div>
+              </div>
+
+              <input *ngSwitchDefault [(ngModel)]="q.response" (ngModelChange)="onAnswerChange()"
+                [name]="'answer_' + selectedSectionId() + '_' + q.id"
+                class="awesome-q-input" type="text" placeholder="Type your answer..." />
+                
+            </ng-container>
+          </div>
+          </div>
+        </div>
+
+        <div class="awesome-q-actions">
+          <button type="button" class="awesome-btn awesome-btn-secondary" (click)="prev()" [disabled]="isFirst()">Previous</button>
+          <button type="button" class="awesome-btn awesome-btn-primary" (click)="saveSection()" [disabled]="!isSaveEnabled()">Save Section</button>
+          <button type="button" class="awesome-btn awesome-btn-secondary" (click)="next()" [disabled]="isLast()">Next</button>
+        </div>
+      </form>
+
+      <!-- No questions case -->
+      <div *ngIf="!showLoader() && questions().length === 0" class="awesome-q-noquestions">
+        Expand Section To Answer.
+      </div>
+    </main>
+
+    <!-- Unsaved changes modal -->
+    <div *ngIf="showUnsavedAlert()" class="unsaved-alert-modal">
+      <div class="unsaved-alert-content">
+        <h3>Unsaved Work</h3>
+        <p>You have unsaved work. Switching to a different section will reset your answers. Proceed?</p>
+        <div class="unsaved-alert-actions">
+          <button class="awesome-btn awesome-btn-primary" (click)="confirmUnsavedAlert()">OK</button>
+          <button class="awesome-btn awesome-btn-secondary" (click)="closeUnsavedAlert()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+<mat-toolbar *ngIf="!isLoginRoute" color="primary" class="admin-toolbar">
+  <!-- Left Section: Logo + Menu -->
+  <div class="toolbar-left">
+    <div class="logo-section">
+      <img src="assets/images/image.png" alt="Logo" class="app-logo" />
+    </div>
+    <a mat-button routerLink="/admin/clients" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }"
+      *ngIf="isAdmin">
+      <i class="fa-solid fa-users"></i>
+      Clients
+    </a>
+    <a mat-button routerLink="/admin/users" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }"
+      *ngIf="isAdmin">
+      <i class="fa-solid fa-user"></i>
+      Users
+    </a>
+    <a mat-button *ngIf="isAdmin || isUser" [routerLink]="isAdmin ? '/admin/clientTemplates' : '/user/clientTemplates'"
+      routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
+      <i class="fa-solid fa-note-sticky"></i>
+      Client Templates
+    </a>
+  </div>
+
+  <!-- Center Section: App Title -->
+  <div class="toolbar-center">
+    <div class="app-title">
+      CyberProtX - Security Assessment Platform
+    </div>
+  </div>
+
+  <!-- Right Section: Logout Button -->
+  <div class="toolbar-right">
+    <button mat-button (click)="logout()">
+      <i class="fa-solid fa-right-from-bracket"></i>
+      Logout
+    </button>
+  </div>
+</mat-toolbar>

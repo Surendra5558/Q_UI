@@ -1,0 +1,111 @@
+<div class="modal-title-bar">
+  <h2 mat-dialog-title class="modal-title">
+    <i class="fa-solid fa-gear gear-icon"></i>
+    {{data.id ? 'Edit' : 'Create'}} Client
+    <button mat-icon-button aria-label="Close dialog" class="close-btn" (click)="onCancel()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </h2>
+</div>
+
+<mat-dialog-content>
+  <form #form="ngForm" autocomplete="off" novalidate>
+    <div class="form-row">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Name</mat-label>
+        <input matInput [(ngModel)]="data.name" name="name" required #name="ngModel" autocomplete="off" />
+        <mat-error *ngIf="name.invalid && name.touched">Name is required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Template Name</mat-label>
+        <input matInput [(ngModel)]="data.templateName" name="templateName" required #templateName="ngModel"
+          autocomplete="off" />
+        <mat-error *ngIf="templateName.invalid && templateName.touched">Template Name is required</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="form-row">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Status Name</mat-label>
+        <input matInput [(ngModel)]="data.statusName" name="statusName" required #statusName="ngModel"
+          autocomplete="off" />
+        <mat-error *ngIf="statusName.invalid && statusName.touched">Status Name is required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Legal Name</mat-label>
+        <input matInput [(ngModel)]="data.legalName" name="legalName" required #legalName="ngModel"
+          autocomplete="off" />
+        <mat-error *ngIf="legalName.invalid && legalName.touched">Legal Name is required</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Address</mat-label>
+        <input matInput [(ngModel)]="data.address" name="address" autocomplete="off" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Phone Number</mat-label>
+        <input matInput [(ngModel)]="data.phoneNumber" name="phoneNumber" autocomplete="off" />
+      </mat-form-field>
+    </div>
+    <div class="form-row">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Contact Person</mat-label>
+        <input matInput [(ngModel)]="data.contactPerson" name="contactPerson" autocomplete="off" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Contact Person Email</mat-label>
+        <input matInput type="email" [(ngModel)]="data.contactPersonEmail" name="contactPersonEmail"
+          autocomplete="off" />
+      </mat-form-field>
+    </div>
+    <div class="form-row">
+
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Contact Person Phone</mat-label>
+        <input matInput [(ngModel)]="data.contactPersonPhone" name="contactPersonPhone" autocomplete="off" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Number Of Locations</mat-label>
+        <input matInput type="number" [(ngModel)]="data.numberOfLocations" name="numberOfLocations"
+          autocomplete="off" />
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Number Of Employees</mat-label>
+        <input matInput type="number" [(ngModel)]="data.numberOfEmployees" name="numberOfEmployees"
+          autocomplete="off" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Number Of Suppliers</mat-label>
+        <input matInput type="number" [(ngModel)]="data.numberOfSuppliers" name="numberOfSuppliers"
+          autocomplete="off" />
+      </mat-form-field>
+    </div>
+    <div class="form-row">
+
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Number Of External Partners</mat-label>
+        <input matInput type="number" [(ngModel)]="data.numberOfExternalPartners" name="numberOfExternalPartners"
+          autocomplete="off" />
+      </mat-form-field>
+    </div>
+  </form>
+
+  <div *ngIf="errorMessage" class="error-message" style="color: red; margin-top: 10px;">
+    {{ errorMessage }}
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="onSave()">Save</button>
+</mat-dialog-actions>

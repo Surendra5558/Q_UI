@@ -1,0 +1,72 @@
+/* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: 'Nunito';
+  src: url('./assets/fonts/Nunito-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Nunito';
+  src: url('assets/fonts/Nunito-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* You can add more weights/styles as needed */
+
+/* Apply Nunito globally */
+html, body, .mat-typography, [class^="mat-"], [class*=" mat-"] {
+font-family: 'Nunito', Arial, sans-serif !important;
+}
+html, body {
+    height: 100%;
+    margin:0;
+}
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+/* Optionally override Angular Material typography */
+.mat-typography,
+.mat-app-background,
+.mat-card,
+.mat-toolbar,
+.mat-form-field,
+.mat-form-field-label,
+.mat-form-field-infix,
+.mat-button,
+.mat-raised-button,
+.mat-table,
+.mat-dialog-container,
+.mat-menu-panel,
+.mat-list-base,
+.mat-select-panel,
+.mat-option,
+.mat-paginator,
+.mat-header-cell,
+.mat-cell,
+.mat-header-row,
+.mat-row,
+.mat-h1, .mat-h2, .mat-h3, .mat-h4, .mat-h5, .mat-h6,
+.mat-body-1, .mat-body-2, .mat-title, .mat-caption,
+.mat-button-wrapper,
+.mat-card-title,
+.mat-card-content,
+.mat-card-actions,
+.mat-card-header,
+.mat-card-subtitle,
+.mat-step-label,
+.mat-step-icon {
+  font-family: 'Nunito', Arial, sans-serif !important;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+  vertical-align: middle;
+}

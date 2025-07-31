@@ -1,0 +1,42 @@
+<div class="report-container" *ngIf="reportData">
+  <h2 class="title">CYBER SECURITY RESILIENCY SCORECARD</h2>
+
+  <table class="report-table">
+    <thead>
+      <tr>
+        <th>Resiliency Level</th>
+        <th *ngFor="let header of reportData.headers">{{ header }}</th>
+        <th>Resiliency Level Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of reportData.rows">
+        <td>{{ row.label }}</td>
+        <td *ngFor="let value of row.values">{{ value }}</td>
+        <td>{{ getRowTotal(row) }}</td>
+      </tr>
+      <tr class="total-row">
+        <td>Function Total Controls</td>
+        <td *ngFor="let total of reportData.totals">{{ total }}</td>
+        <td>{{ getTotalsSum() }}</td>
+      </tr>
+      <tr class="percentage-row">
+        <td>Function Total Score %</td>
+        <td *ngFor="let percent of reportData.percentages">{{ percent }}</td>
+        <td>{{ getTotalPercentage() }}%</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 class="section-title">Resiliency Indicator</h3>
+  <div class="indicator" *ngFor="let header of reportData.headers; let i = index">
+    <span class="label">{{ header }}</span>
+    <div class="bar-container">
+      <div class="bar" [style.width.%]="reportData.indicators[i]">{{ reportData.indicators[i] }}</div>
+    </div>
+  </div>
+
+  <div class="score-section">
+    <h2 class="title">CYBER SECURITY RESILIENCY SCORE : {{ reportData.score }}</h2>
+  </div>
+</div>

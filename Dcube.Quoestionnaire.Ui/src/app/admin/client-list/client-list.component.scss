@@ -1,0 +1,198 @@
+.clients-container {
+  background: #fff;
+  padding: 32px 28px 28px 28px;
+  border-radius: 18px;
+  box-shadow: 0 6px 32px rgba(25, 118, 210, 0.13), 0 1.5px 8px rgba(40, 53, 147, 0.04);
+}
+
+.clients-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  h2 {
+    margin: 0;
+    font-size: 2.2rem;
+    font-family: 'Nunito', Arial, sans-serif;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: #1976d2;
+  }
+}
+
+.table-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+
+  .search-field {
+    width: 320px;
+
+    .icon-prefix {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      margin-right: 8px;
+    }
+    .fa-search {
+      font-size: 1.15rem;
+      color: #1976d2;
+    }
+    input.mat-input-element {
+      border-radius: 20px;
+      font-size: 1rem;
+      background: #f7f9fc;
+      font-family: 'Nunito', Arial, sans-serif;
+    }
+  }
+  ::ng-deep .mat-mdc-form-field-has-icon-prefix .mat-mdc-text-field-wrapper {
+    padding-left: 16px;
+  }
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+table.mat-table {
+  width: 100%;
+  background: #f9fbfe;
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(25, 118, 210, 0.07);
+  overflow: hidden;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-bottom: 0;
+}
+
+.mat-header-row {
+  background: linear-gradient(90deg, #1976d2 70%, #42a5f5 100%);
+  color: #fff;
+  font-family: 'Nunito', Arial, sans-serif;
+  height: 58px;
+}
+
+ .mat-header-cell {
+  font-weight: bold;
+  font-size: 1.19rem;
+  padding: 20px 16px;
+  letter-spacing: 0.02em;
+  border-bottom: 3px solid #e3e6ee;
+  background: transparent;
+  text-shadow: 0 1px 6px rgba(25, 118, 210, 0.07);
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+.mat-row {
+  transition: background 0.16s;
+  &:hover {
+    background: #e3f2fd !important;
+    cursor: pointer;
+  }
+}
+
+.mat-cell {
+  font-size: 1.07rem;
+  color: #263238;
+  padding: 16px 16px;
+  border-bottom: 1.5px solid #e3e6ee;
+  background: #fff;
+  font-family: 'Nunito', Arial, sans-serif;
+  vertical-align: middle;
+}
+
+.mat-row:last-child .mat-cell {
+  border-bottom: none;
+}
+
+button[mat-raised-button], button[mat-button] {
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 22px;
+  padding: 0 18px;
+  height: 40px;
+  box-shadow: 0 1px 4px rgba(25, 118, 210, 0.08);
+  text-transform: none;
+  letter-spacing: 0.02em;
+  transition: background 0.15s, color 0.15s;
+  margin-right: 4px;
+  i, mat-icon {
+    vertical-align: middle;
+    margin-right: 7px;
+    font-size: 18px;
+  }
+}
+
+button[mat-raised-button] {
+  background: linear-gradient(90deg, #1976d2 65%, #42a5f5 100%);
+  color: #fff;
+  &:hover {
+    background: linear-gradient(90deg, #1565c0 65%, #42a5f5 100%);
+     filter: brightness(1.07);
+      transform: translateY(-2px) scale(1.03);
+  }
+}
+
+button[mat-button][color="accent"] {
+  color: #1565c0;
+  background: #e3f2fd;
+  &:hover {
+    background: #bbdefb;
+    color: #0d47a1;
+  }
+}
+
+@media (max-width: 900px) {
+  .clients-container { padding: 18px 2vw; }
+  .clients-header h2 { font-size: 1.35rem; }
+  .table-toolbar .search-field { width: 100%; min-width: 0; }
+  .mat-header-cell, .mat-cell { padding: 10px 6px; }
+  .mat-header-row, .mat-row { height: 40px; }
+  table.mat-table { min-width: 350px; font-size: 0.93rem;}
+}
+
+::-webkit-scrollbar {
+  height: 7px;
+  background: #f3f3f3;
+}
+::-webkit-scrollbar-thumb {
+  background: #d2e3f7;
+  border-radius: 4px;
+}
+::ng-deep .mat-sort-header-content{
+  font-weight: bold;
+  font-size: 18px;
+}
+.headerFont {
+  font-weight: bold;
+  font-size: 18px;
+}
+mat-paginator {
+  border-radius: 0 0 14px 14px;
+  background: rgb(250, 249, 253);
+  font-family: 'Nunito', Arial, sans-serif;
+  box-shadow: 0 4px 20px rgba(25, 118, 210, 0.05);
+  .mat-mdc-paginator-container {
+    padding: 0 12px;
+    min-height: 56px;
+  }
+  .mat-mdc-paginator-range-label {
+    font-size: 1.04rem;
+    color: #1976d2;
+    font-weight: 700;
+    font-family: inherit;
+  }
+  .mat-mdc-icon-button {
+    color: #1976d2;
+    border-radius: 8px;
+    &:hover { background: #e3f2fd; }
+  }
+  .mat-mdc-select-value {
+    font-size: 1.04rem !important;
+  }
+  .mat-mdc-select-arrow {
+    color: #1976d2;
+  }
+}

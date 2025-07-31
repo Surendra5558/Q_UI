@@ -1,0 +1,188 @@
+<div class="awesome-q-root">
+  <mat-card class="stats-container">
+    <mat-card-title>Status Overview</mat-card-title>
+
+    <div class="stats-row">
+      <!-- SECTION STATS CARD -->
+      <mat-card class="combined-stat-card">
+        <div class="group-title">Section: {{ selectedParentSectionName }}</div>
+        <div class="stat-line">
+          <div class="item"><span class="label">Score:</span> <span class="value">{{ selectedParentScore }}</span></div>
+          <div class="item"><span class="label">Status:</span> <span class="value">{{ selectedParentStatus }}</span>
+          </div>
+          <div class="item">
+            <span class="label">Percentage:</span>
+            <span class="value" [ngStyle]="{ color: getColor(selectedParentPercentage) }">
+              {{ selectedParentPercentage }}%
+            </span>
+          </div>
+        </div>
+      </mat-card>
+
+      <!-- SUBSECTION STATS CARD -->
+      <mat-card class="combined-stat-card">
+        <div class="group-title">Subsection: {{ selectedChildSectionName }}</div>
+        <div class="stat-line">
+          <div class="item"><span class="label">Score:</span> <span class="value">{{ selectedScore }}</span></div>
+          <div class="item"><span class="label">Status:</span> <span class="value">{{ selectedStatus }}</span></div>
+          <div class="item">
+            <span class="label">Percentage:</span>
+            <span class="value" [ngStyle]="{ color: getColor(selectedPercentage) }">
+              {{ selectedPercentage }}%
+            </span>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </mat-card>
+  <div class="awesome-q-body">
+    <!-- Sidebar: Parent/Child sections -->
+    <aside class="awesome-q-stepper" *ngIf="!previewMode() && !(showLoader() && !sections().length)">
+      <ul class="awesome-section-list">
+        <li *ngFor="let section of sections()" class="awesome-section-item">
+          <div class="awesome-section-header"
+            [class.awesome-active]="selectedParentSectionId() === section.templateSectionId"
+            (click)="onParentSectionClick(section.templateSectionId)">
+            <span>{{ section.templateSectionName }}</span>
+            <i *ngIf="section.statusId == 2" class="fa fa-exclamation awesome-check-icon-white"></i>
+            <i *ngIf="section.statusId == 3" class="fa fa-check awesome-check-icon-white"></i>
+            <i class="fa"
+              [ngClass]="selectedParentSectionId() === section.templateSectionId ? 'fa-chevron-down' : 'fa-chevron-right'"></i>
+          </div>
+          <ul class="awesome-subsection-list"
+            *ngIf="selectedParentSectionId() === section.templateSectionId && childSections().length">
+            <li *ngFor="let child of childSections()" [class.awesome-active]="selectedChildSectionId() === child.id"
+              (click)="onChildSectionClick(child.id)">
+              <span class="awesome-step-label">{{ child.templateSectionName }}</span>
+              <i *ngIf="allQuestionsAnswered(child)" class="fa fa-check awesome-check-icon"></i>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Loader for entire page, only on first load -->
+    <div *ngIf="showLoader() && !sections().length" class="awesome-q-loader-fullscreen">
+      <div class="awesome-q-loader-anim">
+        <i class="fa fa-spinner fa-spin"></i>
+        <div class="awesome-q-loader-text">Loading...</div>
+      </div>
+    </div>
+
+    <!-- Main content: Question form or loader -->
+    <main *ngIf="!previewMode()" class="awesome-q-main">
+      <!-- Loader for section/child change, covers the question area -->
+      <div *ngIf="showLoader() && sections().length" class="awesome-q-loader-inline">
+        <span class="awesome-q-spinner"><i class="fa fa-spinner fa-spin"></i></span>
+        <span>Loading...</span>
+      </div>
+      <!-- Question form, only visible if not loading and there are questions -->
+      <form class="awesome-q-form" *ngIf="!showLoader() && filteredQuestions().length > 0">
+        <div>
+          <div *ngFor="let q of filteredQuestions(); let i = index" class="awesome-q-question-row">
+            <div class="awesome-q-question-label">
+              <span class="awesome-q-question-num">{{ i + 1 }}.</span>
+              {{ q.description || q.sectionDescription || 'Question' }}
+              <span *ngIf="q.isMandatory" style="color:#f43f5e; margin-left:6px;">*</span>
+            </div>
+            <div class="awesome-q-answer-input">
+              <ng-container [ngSwitch]="q.renderTypeName.toLowerCase()">
+                <!-- TEXT -->
+                <input *ngSwitchCase="'text'" [(ngModel)]="q.response" (ngModelChange)="onAnswerChange()"
+                  [name]="'answer_' + selectedParentSectionId() + '_' + selectedChildSectionId() + '_' + q.questionnaireId"
+                  class="awesome-q-input" type="text" placeholder="Type your answer..." />
+
+                <!-- TEXTAREA -->
+                <textarea *ngSwitchCase="'textarea'" [(ngModel)]="q.response" (ngModelChange)="onAnswerChange()"
+                  [name]="'answer_' + selectedParentSectionId() + '_' + selectedChildSectionId() + '_' + q.questionnaireId"
+                  class="awesome-q-input" rows="5" placeholder="Type your detailed answer..."></textarea>
+
+                <!-- DROPDOWN -->
+                <select *ngSwitchCase="'dropdown'" [(ngModel)]="q.response" (ngModelChange)="onAnswerChange()"
+                  [name]="'answer_' + selectedParentSectionId() + '_' + selectedChildSectionId() + '_' + q.questionnaireId"
+                  class="awesome-q-input">
+                  <option value="" disabled selected>Select...</option>
+                  <option *ngFor="let opt of getOptionsArray(q.options)" [value]="opt">{{ opt }}</option>
+                </select>
+
+                <!-- RADIO BUTTONS -->
+                <div *ngSwitchCase="'radiobutton'" class="awesome-q-radio-group">
+                  <label *ngFor="let opt of getOptionsArray(q.options)" class="awesome-q-radio-label">
+                    <input type="radio" [(ngModel)]="q.response" [value]="opt" (ngModelChange)="onAnswerChange()"
+                      [name]="'answer_' + selectedParentSectionId() + '_' + selectedChildSectionId() + '_' + q.questionnaireId" />
+                    <span>{{ opt }}</span>
+                  </label>
+                </div>
+
+                <!-- DEFAULT (fallback to text input) -->
+                <input *ngSwitchDefault [(ngModel)]="q.response" (ngModelChange)="onAnswerChange()"
+                  [name]="'answer_' + selectedParentSectionId() + '_' + selectedChildSectionId() + '_' + q.questionnaireId"
+                  class="awesome-q-input" type="text" placeholder="Type your answer..." />
+              </ng-container>
+            </div>
+            <div class="awesome-q-question-comment">
+              <label class="awesome-q-question-label">Comments:</label>
+              <textarea [(ngModel)]="q.comments" (ngModelChange)="onAnswerChange()"
+                [name]="'comment_' + selectedParentSectionId() + '_' + selectedChildSectionId() + '_' + q.questionnaireId"
+                class="awesome-q-input" rows="3" placeholder="Add optional comments...">
+               </textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="awesome-q-actions">
+          <button type="button" class="awesome-btn awesome-btn-secondary" (click)="prev()"
+            [disabled]="isFirst()">Previous</button>
+          <button type="button" class="awesome-btn awesome-btn-primary" (click)="saveSection()"
+            [disabled]="!isSaveEnabled()">Save Section</button>
+          <button type="button" class="awesome-btn awesome-btn-secondary" (click)="next()"
+            [disabled]="isLast()">Next</button>
+          <button type="button" class="awesome-btn awesome-btn-preview" (click)="preview()">Preview</button>
+        </div>
+      </form>
+      <!-- Show "Expand Section To Answer." only if not loading and no questions -->
+      <div *ngIf="!showLoader() && filteredQuestions().length === 0" class="awesome-q-noquestions">
+        Expand Section To Answer.
+      </div>
+    </main>
+
+    <!-- Preview Mode -->
+    <main *ngIf="previewMode()" class="awesome-q-main">
+      <div class="awesome-q-preview">
+        <h2 style="color:#2563eb;font-weight:800;margin-bottom:22px;">Preview All Answers</h2>
+        <div *ngFor="let group of allSectionsWithAnswers()">
+          <div class="awesome-q-preview-section">
+            <h3>{{ group.parent.templateSectionName }}</h3>
+            <div *ngFor="let child of group.children">
+              <div style="font-weight:600;color:#0ea5e9;margin-bottom:6px;margin-top:20px;">
+                {{ child.templateSectionName }}
+              </div>
+              <div *ngFor="let q of child.questionnaires">
+                <div class="awesome-q-preview-row">
+                  <div class="awesome-q-preview-question">{{ q.description || q.sectionDescription }}</div>
+                  <div class="awesome-q-preview-answer">{{ q.response ?? '-' }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:right;margin-top:30px;">
+          <button class="awesome-btn awesome-btn-secondary" (click)="exitPreview()">Back</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Unsaved changes alert -->
+    <div *ngIf="showUnsavedAlert()" class="unsaved-alert-modal">
+      <div class="unsaved-alert-content">
+        <h3>Unsaved Work</h3>
+        <p>You have unsaved work. Switching to a different section will reset your answers. Proceed?</p>
+        <div class="unsaved-alert-actions">
+          <button class="awesome-btn awesome-btn-primary" (click)="confirmUnsavedAlert()">OK</button>
+          <button class="awesome-btn awesome-btn-secondary" (click)="closeUnsavedAlert()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

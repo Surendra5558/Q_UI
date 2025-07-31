@@ -1,0 +1,120 @@
+:host {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f8fafc 0%, #e0e7ef 100%);
+}
+
+mat-card {
+  min-width: 540px;
+  max-width: 580px;
+  width: 100%;
+  padding: 32px 20px 24px 20px;
+  border-radius: 18px;
+  box-shadow: 0 6px 24px 0 rgba(30, 34, 90, 0.13), 0 1.5px 3px 0 rgba(30, 34, 90, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background: #fff;
+}
+
+mat-card-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: rgb(25, 118, 210);
+  text-align: center;
+  margin-bottom: 16px;
+  letter-spacing: 0.5px;
+}
+
+mat-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+mat-form-field {
+  font-size: 1.1rem;
+}
+
+button[mat-raised-button] {
+  margin-top: 12px;
+  font-size: 1.07rem;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(30, 34, 90, 0.08);
+  transition: box-shadow 0.15s;
+  &:hover {
+    box-shadow: 0 4px 14px rgba(30, 34, 90, 0.12);
+  }
+}
+
+button[mat-raised-button] {
+  font-weight: 600;
+  font-size: 1.04rem;
+  border-radius: 8px;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: linear-gradient(90deg, #1976d2 60%, #42a5f5 100%);
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  cursor: pointer;
+}
+
+button[mat-raised-button]:hover{
+  filter: brightness(1.07);
+  transform: translateY(-2px) scale(1.03);
+}
+
+
+.error {
+  color: #e53935;
+  margin-top: 4px;
+  font-size: 0.97rem;
+  text-align: left;
+}
+
+a {
+  color: rgb(25, 118, 210);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.98rem;
+  transition: color 0.15s;
+  &:hover {
+    color: rgb(25, 118, 210);
+    text-decoration: underline;
+  }
+}
+
+@media (max-width: 450px) {
+  mat-card {
+    min-width: unset;
+    width: 98vw;
+    padding: 18px 6px 18px 6px;
+  }
+  mat-card-title {
+    font-size: 1.2rem;
+  }
+}
+
+button[mat-icon-button] {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button[mat-icon-button] i.fa {
+  font-size: 1.2rem;
+  color: rgb(25, 118, 210); // optional for consistent color
+}

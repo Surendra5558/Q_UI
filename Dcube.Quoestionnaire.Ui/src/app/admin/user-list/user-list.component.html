@@ -1,0 +1,63 @@
+<div class="users-container">
+  <div class="users-header">
+    <h2>Users</h2>
+    <button mat-raised-button color="primary" (click)="openModal()">
+      <i class="fa-solid fa-plus"></i>
+      Create User
+    </button>
+  </div>
+
+  <div class="table-toolbar">
+    <!-- LEFT: client dropdown + message -->
+    <div style="display: flex; align-items: center;">
+      <mat-form-field appearance="outline" class="client-select">
+        <mat-label>Client</mat-label>
+        <mat-select [(ngModel)]="selectedClientId" (selectionChange)="onClientChange($event.value)">
+          <mat-option [value]="null">Select Client</mat-option>
+          <mat-option *ngFor="let client of clients" [value]="client.id">{{client.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <span class="select-client-msg" *ngIf="!selectedClientId" style="margin-left:8px;">
+        Please select client to display users
+      </span>
+    </div>
+    <!-- RIGHT: search bar -->
+    <div *ngIf="selectedClientId">
+      <mat-form-field appearance="outline" floatLabel="auto" class="search-field">
+        <span matPrefix class="icon-prefix">
+          <i class="fa-solid fa-search"></i>
+        </span>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Search users…" />
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="table-wrapper">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z1" style="width:100%;margin-top:10px;">
+      <ng-container *ngFor="let column of cols" [matColumnDef]="column.key">
+
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          {{ column.label }}
+        </th>
+
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="column.key === 'actions'; else defaultCell">
+            <button mat-button color="accent" (click)="openModal(element)">
+              <i class="fa-regular fa-pen-to-square"></i>
+            </button>
+          </ng-container>
+          <ng-template #defaultCell>
+            {{ element[column.key] }}
+          </ng-template>
+        </td>
+
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="colsToDisplay"></tr>
+      <tr mat-row *matRowDef="let row; columns: colsToDisplay;"></tr>
+    </table>
+    <mat-paginator [length]="dataSource.filteredData.length" [pageSize]="6" [pageSizeOptions]="[6, 10, 20, 50]"
+      showFirstLastButtons>
+    </mat-paginator>
+  </div>
+</div>

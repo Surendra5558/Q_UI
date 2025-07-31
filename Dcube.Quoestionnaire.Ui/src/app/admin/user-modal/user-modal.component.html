@@ -1,0 +1,55 @@
+<div class="modal-title-bar">
+  <h2 mat-dialog-title class="modal-title">
+    <i class="fa-solid fa-gear gear-icon"></i>
+    {{data.id ? 'Edit' : 'Create'}} User
+    <button mat-icon-button aria-label="Close dialog" class="close-btn" (click)="onCancel()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </h2>
+</div>
+<mat-dialog-content>
+  <form #form="ngForm">
+    <div class="form-row">
+      <!-- Client Dropdown -->
+      <mat-form-field appearance="outline" style="width:48%; min-width:160px;">
+        <mat-label>Client</mat-label>
+        <mat-select [(ngModel)]="data.clientId" name="clientId" required>
+          <mat-option [value]="null">Select Client</mat-option>
+          <mat-option *ngFor="let client of clients" [value]="client.id">{{client.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!-- Username -->
+      <mat-form-field appearance="outline" style="width:48%; min-width:160px;">
+        <mat-label>Username</mat-label>
+        <input matInput [(ngModel)]="data.username" name="username" required>
+      </mat-form-field>
+    </div>
+    <div class="form-row">
+    <mat-form-field appearance="outline" style="width:100%;">
+      <mat-label>Role</mat-label>
+      <mat-select [(ngModel)]="data.role" name="role" required>
+        <mat-option value="admin">Admin</mat-option>
+        <mat-option value="user">User</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <!-- Templates Dropdown -->
+    <mat-form-field appearance="outline" style="width:100%;">
+      <mat-label>Template</mat-label>
+      <mat-select [(ngModel)]="selectedTemplateId" name="templateId" (selectionChange)="onTemplateChange($event.value)">
+        <mat-option *ngFor="let template of templates" [value]="template.id">{{template.name}}</mat-option>
+      </mat-select>
+      <!-- Preview icon shown when template selected -->
+      <button class="customColor" *ngIf="selectedTemplateId" mat-icon-button matSuffix aria-label="Preview Template"
+        (click)="previewTemplate($event)">
+        <i class="fa-solid fa-eye"></i>
+      </button>
+    </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary"
+    [disabled]="!data.username || !data.role || !data.clientId"
+    (click)="onSave()">Save</button>
+</mat-dialog-actions>

@@ -1,0 +1,70 @@
+<div class="client-layout-wrapper">
+
+  <!-- Left Panel: Client Overview -->
+  <div class="client-left">
+    <mat-card class="client-overview-card">
+      <mat-card-title>Client</mat-card-title>
+      <mat-card-content>
+        <div class="client-details-grid">
+
+          <!-- Identity -->
+          <div class="client-detail">
+            <span class="label">Name</span>
+            <span class="value">{{ data?.name }}</span>
+          </div>
+          <div class="client-detail">
+            <span class="label">Legal Name</span>
+            <span class="value">{{ data?.legalName }}</span>
+          </div>
+      
+          <!-- Contact -->
+          <div class="client-detail" *ngIf="data?.address">
+            <span class="label">Address</span>
+            <span class="value">{{ data?.address }}</span>
+          </div>
+          <div class="client-detail" *ngIf="data?.phoneNumber">
+            <span class="label">Phone</span>
+            <span class="value">{{ data?.phoneNumber }}</span>
+          </div>
+          <div class="client-detail" *ngIf="data?.contactPerson">
+            <span class="label">Contact Person</span>
+            <span class="value">{{ data?.contactPerson }}</span>
+          </div>
+          <div class="client-detail" *ngIf="data?.contactPersonEmail">
+            <span class="label">Email</span>
+            <span class="value">{{ data?.contactPersonEmail }}</span>
+          </div>
+          <div class="client-detail" *ngIf="data?.contactPersonPhone">
+            <span class="label">Contact Phone</span>
+            <span class="value">{{ data?.contactPersonPhone }}</span>
+          </div>
+
+          <!-- Stats -->
+          <div class="client-detail">
+            <span class="label">Locations</span>
+            <span class="value">{{ data?.numberOfLocations || 0 }}</span>
+          </div>
+          <div class="client-detail">
+            <span class="label">Employees</span>
+            <span class="value">{{ data?.numberOfEmployees || 0 }}</span>
+          </div>
+          <div class="client-detail">
+            <span class="label">Suppliers</span>
+            <span class="value">{{ data?.numberOfSuppliers || 0 }}</span>
+          </div>
+          <div class="client-detail">
+            <span class="label">External Partners</span>
+            <span class="value">{{ data?.numberOfExternalPartners || 0 }}</span>
+          </div>
+
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Right Panel: Render Another Component -->
+  <div class="client-right">
+    <app-securityreport></app-securityreport>
+  </div>
+
+</div>

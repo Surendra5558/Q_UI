@@ -1,0 +1,36 @@
+<div class="modal-title-bar">
+  <h2 mat-dialog-title class="modal-title">
+    <i class="fa-solid fa-gear gear-icon"></i>
+    {{data.id ? 'Edit' : 'Create'}} Client Template
+    <button mat-icon-button aria-label="Close dialog" class="close-btn" (click)="onCancel()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </h2>
+</div>
+<mat-dialog-content>
+  <form #form="ngForm">
+    <div class="form-row">
+      <!-- Client Dropdown -->
+      <mat-form-field appearance="outline" style="width:48%; min-width:160px;">
+        <mat-label>Client</mat-label>
+        <mat-select [(ngModel)]="data.clientId" name="clientId" required (selectionChange)="onClientChange($event.value)">
+          <mat-option [value]="null">Select Client</mat-option>
+          <mat-option *ngFor="let client of clients" [value]="client.id">{{client.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!-- Templates Dropdown -->
+      <mat-form-field appearance="outline" style="width:48%; min-width:160px;">
+        <mat-label>Template</mat-label>
+        <mat-select [(ngModel)]="selectedTemplateId" name="templateId"
+          (selectionChange)="onTemplateChange($event.value)">
+          <mat-option *ngFor="let template of templates" [value]="template.id">{{template.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-raised-button color="primary" [disabled]="!data.clientId || !data.templateId"
+    (click)="onSave()">Save</button>
+</mat-dialog-actions>

@@ -1,0 +1,54 @@
+<mat-card class="pathway-card">
+  <mat-card-title>Pathway Report</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="pathwayForm" class="pathway-form">
+      
+      <div class="header-section" *ngFor="let header of reportHeaders; let i = index">
+        <div class="header-with-score">
+          <h3 class="section-header">{{ header }}</h3>
+          <div class="score-container">
+            <span class="score-title">Functional Total Score:</span>
+            <span class="score-badge">{{ reportPercentages[i] || '0%' }}</span>
+          </div>
+        </div>
+        
+        <div class="form-section">
+          <label>Gaps</label>
+          <textarea matInput 
+                    [formControlName]="'identityGaps_' + i" 
+                    placeholder="Type your detailed answer..."
+                    rows="3"></textarea>
+        </div>
+
+        <div class="form-section">
+          <label>Remediation</label>
+          <textarea matInput 
+                    [formControlName]="'remediationPoints_' + i" 
+                    placeholder="Type your detailed answer..."
+                    rows="3"></textarea>
+        </div>
+      </div>
+
+      <div class="button-container grouped-buttons">
+        <div class="left-buttons">
+          <input type="file" 
+                #fileInput 
+                (change)="onFileSelected($event)" 
+                accept=".pdf,.doc,.docx,.txt,.xlsx,.xls"
+                style="display: none;">
+          <button type="button" 
+                  class="awesome-btn awesome-btn-upload" 
+                  (click)="fileInput.click()">
+            Upload File
+          </button>
+        </div>
+
+        <div class="right-buttons">
+          <button type="button" class="awesome-btn awesome-btn-primary" (click)="onSave()">Save</button>
+          <button type="button" class="awesome-btn awesome-btn-secondary" (click)="onReset()">Reset</button>
+        </div>
+      </div>
+
+    </form>
+  </mat-card-content>
+</mat-card>
