@@ -1,17 +1,19 @@
 FROM node:18-alpine
 
-# Set the working directory inside the container
+# Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json to the working directory
+# Copy dependencies
 COPY Dcube.Quoestionnaire.Ui/package*.json ./
 
-# Install application dependencies
+# Install dependencies
 RUN npm install
 
-# Copy the rest of the application code
-COPY . .
+# Copy rest of the app
+COPY Dcube.Quoestionnaire.Ui/ ./
 
-# Expose the port your application listens on
+# Expose port (Cloud Run expects this)
 EXPOSE 8080
 
+# Start the app
+CMD ["npm", "start"]
