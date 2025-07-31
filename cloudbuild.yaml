@@ -5,7 +5,7 @@ steps:
   args: ['build', '-t', 'ui', '.']
   
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/$PROJECT_ID/UI:$COMMIT_SHA']
+  args: ['push', 'gcr.io/$PROJECT_ID/ui:$COMMIT_SHA']
 
 options:
   logging: CLOUD_LOGGING_ONLY
