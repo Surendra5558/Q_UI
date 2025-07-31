@@ -14,6 +14,6 @@ FROM nginx:alpine
 COPY --from=builder /app/Dcube.Quoestionnaire.Ui/dist/qst /usr/share/nginx/html
  
 # Expose port (optional)
-EXPOSE 80
+EXPOSE 8080
  
 # Start nginx (default CMD from base image is fine)
