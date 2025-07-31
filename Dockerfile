@@ -1,19 +1,19 @@
-FROM node:18-alpine
-
-# Set working directory
+# Stage 1: Build
+FROM node:18.19.0-alpine AS builder
+ 
 WORKDIR /app
-
-# Copy dependencies
-COPY Dcube.Quoestionnaire.Ui/package*.json ./
-
-# Install dependencies
-RUN npm install
-
-# Copy rest of the app
-COPY Dcube.Quoestionnaire.Ui/ ./
-
-# Expose port (Cloud Run expects this)
+COPY Dcube.Quoestionnaire.Ui/package*.json ./Dcube.Quoestionnaire.Ui/
+RUN cd Dcube.Quoestionnaire.Ui && npm install
+COPY Dcube.Quoestionnaire.Ui ./Dcube.Quoestionnaire.Ui
+RUN cd Dcube.Quoestionnaire.Ui && npm run build
+ 
+# Stage 2: Serve with NGINX
+FROM nginx:alpine
+ 
+# Copy build output to NGINX HTML folder
+COPY --from=builder /app/Dcube.Quoestionnaire.Ui/dist/qst /usr/share/nginx/html
+ 
+# Expose port (optional)
 EXPOSE 80
-
-# Start the app
-CMD ["npm", "start"]
+ 
+# Start nginx (default CMD from base image is fine)
