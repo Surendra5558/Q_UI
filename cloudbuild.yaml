@@ -5,8 +5,7 @@ steps:
   args: ['build', '-t', 'ui', '.']
   
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', '$PROJECT_ID/Dcube.Quoestionnaire.Ui:latest', '.']
-  dir: 'ui'  # Optional: directory containing Dockerfile
+  args: ['push', 'gcr.io/$PROJECT_ID/UI:$COMMIT_SHA']
 
 options:
   logging: CLOUD_LOGGING_ONLY
