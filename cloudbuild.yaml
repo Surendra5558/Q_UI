@@ -1,7 +1,9 @@
 steps:
-  - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/my-project/my-ui1', '.']
-
+# Build the Docker image
+- name: 'gcr.io/cloud-builders/docker'
+  dir: 'Dcube.Quoestionnaire.Ui'
+  args: ['build', '-t', 'ui1', '.']
 
 options:
   logging: CLOUD_LOGGING_ONLY
+
