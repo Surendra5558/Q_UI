@@ -6,7 +6,7 @@ steps:
     
   # Push the image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/$PROJECT_ID/ui:$COMMIT_SHA']
+    args: ['push', 'x/$PROJECT_ID/ui:$COMMIT_SHA']
 
 
 options:
