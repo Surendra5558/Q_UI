@@ -1,6 +1,6 @@
 steps:
 # Build the Docker image
-- name: 'gcr.io/cloud-builders/docker'
+- name: 'ui1'
   args: ['build' ,'-t' , 'ui1' , '.']
 
 options:
