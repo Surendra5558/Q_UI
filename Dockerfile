@@ -13,7 +13,7 @@ RUN npm install
 COPY Dcube.Quoestionnaire.Ui/ ./
 
 # Expose port (Cloud Run expects this)
-EXPOSE 8080
+EXPOSE 80
 
 # Start the app
 CMD ["npm", "start"]
