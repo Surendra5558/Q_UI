@@ -1,14 +1,12 @@
 steps:
-  # Build the Docker image with full GCR tag
+  # Build the Docker image with Artifact Registry path
   - name: 'gcr.io/cloud-builders/docker'
     dir: 'Dcube.Quoestionnaire.Ui'
-    args: ['build', '-t', 'x/$PROJECT_ID/ui:$COMMIT_SHA', '.']
-    
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/$PROJECT_ID/x/ui:$COMMIT_SHA', '.']
+
   # Push the image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'x/$PROJECT_ID/ui:$COMMIT_SHA']
-
+    args: ['push', 'us-central1-docker.pkg.dev/$PROJECT_ID/x/ui:$COMMIT_SHA']
 
 options:
   logging: CLOUD_LOGGING_ONLY
-
