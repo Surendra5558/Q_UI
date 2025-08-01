@@ -6,4 +6,7 @@ COPY Dcube.Quoestionnaire.Ui/ ./
 RUN nmp run build
 FROM FROM nginx:alpine
 COPY --from=builder /app/dist/qst /usr/share/nginx/html
+RUN rm /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 EXPOSE 8080
