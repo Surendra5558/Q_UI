@@ -1,4 +1,3 @@
-EXPOSE 8080# Stage 1: Build Angular app
 FROM node:18.19.0-alpine AS builder
 
 WORKDIR /app
