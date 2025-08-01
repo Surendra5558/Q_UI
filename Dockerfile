@@ -3,28 +3,28 @@ FROM node:18.19.0-alpine AS builder
 
 WORKDIR /app
 
-# Install deps
+# Install dependencies
 COPY Dcube.Quoestionnaire.Ui/package*.json ./Dcube.Quoestionnaire.Ui/
 RUN cd Dcube.Quoestionnaire.Ui && npm install
 
-# Copy and build app
+# Copy source files and build app
 COPY Dcube.Quoestionnaire.Ui ./Dcube.Quoestionnaire.Ui
 RUN cd Dcube.Quoestionnaire.Ui && npm run build
 
-# Stage 2: Serve using NGINX
+# Stage 2: Serve with NGINX
 FROM nginx:alpine
 
-# Remove default config
+# Remove default nginx site config
 RUN rm /etc/nginx/conf.d/default.conf
 
-# ⚠️ Copy our custom config that listens on 8080
+# ⚠️ Copy your custom nginx.conf
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copy Angular dist output
+# ⚠️ Copy built Angular files from correct path
 COPY --from=builder /app/Dcube.Quoestionnaire.Ui/dist/qst /usr/share/nginx/html
 
-# Inform Cloud Run this listens on 8080
+# Expose port 8080 for Cloud Run
 EXPOSE 8080
 
-# Run NGINX
+# Start NGINX
 CMD ["nginx", "-g", "daemon off;"]
