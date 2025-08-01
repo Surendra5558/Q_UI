@@ -18,7 +18,7 @@ FROM nginx:alpine
 COPY --from=builder /app/dist/qst /usr/share/nginx/html
 
 # Copy nginx.conf template (uses $PORT) for dynamic port binding
-COPY nginx.conf /etc/nginx/templates/default.conf.template
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # At runtime, replace $PORT with actual value using envsubst
 CMD ["/bin/sh", "-c", "envsubst < /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf && exec nginx -g 'daemon off;'"]
