@@ -1,4 +1,4 @@
-# Stage 1: Build Angular app
+EXPOSE 8080# Stage 1: Build Angular app
 FROM node:18.19.0-alpine AS builder
 
 WORKDIR /app
@@ -20,5 +20,6 @@ COPY --from=builder /app/dist/qst /usr/share/nginx/html
 RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/conf.d/default.con
 
+EXPOSE 8080
 # At runtime, replace $PORT with actual value using envsubst
 CMD ["nginx", "-g", "daemon off;"]
