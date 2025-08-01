@@ -3,28 +3,28 @@ FROM node:18.19.0-alpine AS builder
 
 WORKDIR /app
 
-# Install dependencies
+# Install deps
 COPY Dcube.Quoestionnaire.Ui/package*.json ./Dcube.Quoestionnaire.Ui/
 RUN cd Dcube.Quoestionnaire.Ui && npm install
 
-# Build the Angular app
+# Copy and build app
 COPY Dcube.Quoestionnaire.Ui ./Dcube.Quoestionnaire.Ui
 RUN cd Dcube.Quoestionnaire.Ui && npm run build
 
 # Stage 2: Serve using NGINX
 FROM nginx:alpine
 
-# Remove default NGINX config
+# Remove default config
 RUN rm /etc/nginx/conf.d/default.conf
 
-# Add custom NGINX config to use PORT env
+# ⚠️ Copy our custom config that listens on 8080
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copy built app from builder stage
+# Copy Angular dist output
 COPY --from=builder /app/Dcube.Quoestionnaire.Ui/dist/qst /usr/share/nginx/html
 
-# Expose Cloud Run's expected port
+# Inform Cloud Run this listens on 8080
 EXPOSE 8080
 
-# Use dumb-init to pass environment variables to nginx (optional but safe)
+# Run NGINX
 CMD ["nginx", "-g", "daemon off;"]
