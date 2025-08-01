@@ -8,7 +8,7 @@ COPY Dcube.Quoestionnaire.Ui/package*.json ./
 RUN npm install
 
 # Copy source code and build
-COPY Dcube.Quoestionnaire.Ui/ ./
+COPY . .
 RUN npm run build
 
 # Stage 2: Serve with NGINX
@@ -21,4 +21,4 @@ RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/conf.d/default.con
 
 # At runtime, replace $PORT with actual value using envsubst
-CMD ["/bin/sh", "-c", "envsubst < /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf && exec nginx -g 'daemon off;'"]
+CMD ["nginx", "-g", "daemon off;"]
