@@ -18,5 +18,4 @@ COPY --from=builder /app/dist/qst /usr/share/nginx/html
 
 RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/conf.d/default.con
-
-CMD [“pnpm”, “run”, “preview”, “–host”, “0.0.0.0”, “–port”, “8080”]
+CMD [ "pnpm", "start" ]
