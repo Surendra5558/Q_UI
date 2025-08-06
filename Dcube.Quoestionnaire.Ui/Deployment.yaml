@@ -24,7 +24,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: ui-deployment
+  name: us-central1-docker.pkg.dev/konaai-dev-462909/q-test/ui:latest
 spec:
   selector:
     app: ui-app
