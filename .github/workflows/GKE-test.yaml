@@ -37,8 +37,8 @@ jobs:
        # Build the Docker image
       - name: 'Build and push Docker container'
         run: |-
-          docker build tag "${{REPOSITORY}}":${{ github.sha }}  ui .
-          docker push "${{ REPOSITORY}}":${{ github.sha }}" 
+          docker build tag "${{ REPOSITORY }}":${{ github.sha }}  ui .
+          docker push "${{ REPOSITORY }}":${{ github.sha }}" 
         
 
 
