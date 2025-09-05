@@ -1,1 +1,9 @@
-#
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ui-config
+data:
+  api-constants.json: |
+    {
+      "API_BASE_URL": "https://api.mattermax.xyz"
+    }
