@@ -4,15 +4,6 @@ on:
   push:
     branches:
       - '"main"'
-
-env:
-  PROJECT_ID: 'hip-return-462813-t1' # TODO: update to your Google Cloud project ID
-  GAR_LOCATION: 'us-central1' # TODO: update to your region
-  GKE_CLUSTER: 'cluster-1' # TODO: update to your cluster name
-  GKE_ZONE: 'us-central1-a' # TODO: update to your cluster zone
-  DEPLOYMENT_NAME: 'gke-test' # TODO: update to your deployment name
-  REPOSITORY: 'us-central1-docker.pkg.dev/hip-return-462813-t1/q-test' # TODO: update to your Artifact Registry docker repository nam
-  
 jobs:
   setup-build-publish-deploy:
     name: 'Setup, Build, Publish, and Deploy'
@@ -33,12 +24,12 @@ jobs:
         run: |
           gcloud auth configure-docker REGION-docker.pkg.dev --quiet
           
-        
+       
        # Build the Docker image
       - name: 'Build and push Docker container'
         run: |-
-          docker build tag "${{ REPOSITORY }}":${{ github.sha }}  ui .
-          docker push "${{ REPOSITORY }}":${{ github.sha }}" 
+          docker build tag us-central1-docker.pkg.dev/hip-return-462813-t1/q-test:${{ github.sha }}  ui .
+          docker push us-central1-docker.pkg.dev/hip-return-462813-t1/q-test:${{ github.sha }}
         
 
 
