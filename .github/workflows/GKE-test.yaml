@@ -35,5 +35,5 @@ jobs:
           docker push $IMAGE:${{ github.sha }}
 
           # Optional: also push "latest" tag
-          docker tag $IMAGE:${{ github.sha }} $IMAGE:latest
-          docker push $IMAGE:latest
+          #docker tag $IMAGE:${{ github.sha }} $IMAGE:latest
+          #docker push $IMAGE:latest
