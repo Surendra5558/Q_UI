@@ -31,7 +31,7 @@ jobs:
       - name: 'Build and push Docker container'
         run: |
           IMAGE=us-central1-docker.pkg.dev/hip-return-462813-t1/q-test/ui
-          docker build -t $IMAGE:${{ github.sha }} UI .
+          docker build -t $IMAGE:${{ github.sha }} .
           docker push $IMAGE:${{ github.sha }}
 
           # Optional: also push "latest" tag
