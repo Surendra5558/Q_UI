@@ -3,8 +3,7 @@ name: 'Build and Deploy to GKE'
 on:
   push:
     branches:
-      - main   # ✅ fixed branch trigger
-
+      - main 
 jobs:
   setup-build-publish-deploy:
     name: 'Setup, Build, Publish, and Deploy'
@@ -28,12 +27,31 @@ jobs:
           gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
           
       # Step 4: Build and push Docker image
-      - name: 'Build and push Docker container'
-        run: |
-          IMAGE=us-central1-docker.pkg.dev/hip-return-462813-t1/q-test/ui
-          docker build -t $IMAGE:${{ github.sha }} .
-          docker push $IMAGE:${{ github.sha }}
+     # - name: 'Build and push Docker container'
+       # run: |
+          #IMAGE=us-central1-docker.pkg.dev/hip-return-462813-t1/q-test/ui
+        #  docker build -t $IMAGE:${{ github.sha }} .
+        #  docker push $IMAGE:${{ github.sha }}
 
           # Optional: also push "latest" tag
           #docker tag $IMAGE:${{ github.sha }} $IMAGE:latest
           #docker push $IMAGE:latest
+      - name: Get GKE credentials
+        uses: google-github-actions/get-gke-credentials@v2
+        with:
+         cluster_name: ${{ secrets.GKE_CLUSTER }}
+         location: ${{ secrets.GKE_ZONE }}
+         project_id: ${{ secrets.GKE_PROJECT }}
+
+      - name: Deploy to GKE with manifests
+        run: |
+           kubectl apply -f Deployments/Env-Variables/ui-var.yaml
+           kubectl apply -f Deployments/Deployment/Deployment.yaml
+           kubectl rollout status deployment/ui-deployment
+           kubectl apply -f Deployments/Cert-Manager/cert-manager.yaml
+           kubectl apply -f Deployments/Ingress-Deployment/ui-ingress.yaml
+           
+           
+           
+
+
