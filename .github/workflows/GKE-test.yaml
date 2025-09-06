@@ -27,15 +27,15 @@ jobs:
           gcloud auth configure-docker us-central1-docker.pkg.dev --quiet
           
       # Step 4: Build and push Docker image
-     # - name: 'Build and push Docker container'
-       # run: |
-          #IMAGE=us-central1-docker.pkg.dev/hip-return-462813-t1/q-test/ui
-        #  docker build -t $IMAGE:${{ github.sha }} .
-        #  docker push $IMAGE:${{ github.sha }}
+      - name: 'Build and push Docker container'
+        run: |
+          IMAGE=us-central1-docker.pkg.dev/hip-return-462813-t1/q-test/ui
+          docker build -t $IMAGE:${{ github.sha }} .
+          docker push $IMAGE:${{ github.sha }}
 
-          # Optional: also push "latest" tag
-          #docker tag $IMAGE:${{ github.sha }} $IMAGE:latest
-          #docker push $IMAGE:latest
+          Optional: also push "latest" tag
+          docker tag $IMAGE:${{ github.sha }} $IMAGE:latest
+          docker push $IMAGE:latest
           
       - name: Get GKE credentials
         uses: google-github-actions/get-gke-credentials@v2
