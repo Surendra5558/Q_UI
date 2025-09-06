@@ -36,19 +36,49 @@ jobs:
           # Optional: also push "latest" tag
           #docker tag $IMAGE:${{ github.sha }} $IMAGE:latest
           #docker push $IMAGE:latest
+          
       - name: Get GKE credentials
         uses: google-github-actions/get-gke-credentials@v2
         with:
          cluster_name: ${{ secrets.GKE_CLUSTER }}
          location: ${{ secrets.GKE_ZONE }}
          project_id: ${{ secrets.GKE_PROJECT }}
+          
+      - name: Ensure ingress-nginx is installed
+        run: |
+          if helm status ingress-nginx -n ingress-nginx >/dev/null 2>&1; then
+           echo "Ingress-NGINX already installed, skipping..."
+          else
+           echo "Installing Ingress-NGINX..."
+            helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+            helm repo update
+            helm install ingress-nginx ingress-nginx/ingress-nginx \
+           --create-namespace \
+           --namespace ingress-nginx
+           fi
+           
+      - name: Ensure cert manager is installed
+        run: |
+         if kubectl get ns cert-manager >/dev/null 2>&1; then
+          echo "Cert-manager already installed, skipping..."
+         else
+          echo "Installing cert-manager..."
+         kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.0/cert-manager.yaml
+         helm repo add jetstack https://charts.jetstack.io
+         helm repo update
+         helm install cert-manager jetstack/cert-manager \
+         --namespace cert-manager \
+         --create-namespace \
+         --version v1.15.0
+         kubectl apply -f Deployments/Cert-Manager/cert-manager.yaml
+         fi
+          
 
       - name: Deploy to GKE with manifests
         run: |
            kubectl apply -f Deployments/Env-Variables/ui-var.yaml
            kubectl apply -f Deployments/Deployment/Deployment.yaml
            kubectl rollout status deployment/ui-deployment
-           kubectl apply -f Deployments/Cert-Manager/cert-manager.yaml
            kubectl apply -f Deployments/Ingress-Deployment/ui-ingress.yaml
            
            
