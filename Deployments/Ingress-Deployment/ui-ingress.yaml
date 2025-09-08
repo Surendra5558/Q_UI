@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: mattermax-ingress
+  name: ui-ingress
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/rewrite-target: /
@@ -12,7 +12,6 @@ spec:
   tls:
     - hosts:
         - ui.mattermax.xyz
-        - api.mattermax.xyz
       secretName: ui-tls
   rules:
     - host: ui.mattermax.xyz
@@ -23,16 +22,5 @@ spec:
             backend:
               service:
                 name: ui-service
-                port:
-                  number: 80
-
-    - host: api.mattermax.xyz
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: api-service
                 port:
                   number: 80
