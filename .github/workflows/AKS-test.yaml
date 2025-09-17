@@ -24,6 +24,14 @@ jobs:
         run: |
          az acr login --name ${{ secrets.ACR_NAME }}
 
+      # Step 3: Get AKS credentials
+      - name: 'Get AKS Credentials'
+        run: |
+          az aks get-credentials \
+            --resource-group ${{ secrets.AKS_RESOURCE_GROUP }} \
+            --name ${{ secrets.AKS_CLUSTER_NAME }}
+            
+
     # Step 4: Build and push Docker image
       - name: 'Build and Push Docker Image'
         run: |
@@ -35,12 +43,7 @@ jobs:
           docker tag $IMAGE:${{ github.sha }} $IMAGE:latest
           docker push $IMAGE:latest
           
-      # Step 3: Get AKS credentials
-      - name: 'Get AKS Credentials'
-        run: |
-          az aks get-credentials \
-            --resource-group ${{ secrets.AKS_RESOURCE_GROUP }} \
-            --name ${{ secrets.AKS_CLUSTER_NAME }}
+
 
       # Step 5: Deploy to AKS using kubectl
       - name: 'Deploy to AKS with manifests'
